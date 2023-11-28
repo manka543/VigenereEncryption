@@ -56,3 +56,17 @@ char Utilities::undoLetter(char &letter, char &key) {
         return letter;
     }
 }
+
+bool Utilities::validateInput(flags &pickedMode, FilePaths &filePaths){
+    switch (pickedMode) {
+        case flags::encrypt:
+        case flags::decrypt:
+        case flags::breakingKey:{
+            return !filePaths.inputFile.empty() && !filePaths.outputFile.empty() && !filePaths.keyFile.empty();
+        }
+        default:// it should never happen
+        case flags::error:{
+            return false;
+        }
+    }
+}
