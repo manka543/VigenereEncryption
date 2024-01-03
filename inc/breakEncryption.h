@@ -5,8 +5,15 @@
 #ifndef VIGENEREENCRYPTION_BREAKENCRYPTION_H
 #define VIGENEREENCRYPTION_BREAKENCRYPTION_H
 
-namespace BreakEncryption {
+#include <string>
 
+
+namespace BreakEncryption {
+    std::string findKey(std::string &cypherText);
+
+    int kasiskiExamination(std::string &cleanCypherText);
+
+    char findCaesarShift(std::string &cleanCypherText, int keyLength, int shift);
 }
 
 #endif //VIGENEREENCRYPTION_BREAKENCRYPTION_H

@@ -6,12 +6,12 @@
 #include "../inc/utilities.h"
 
 std::string Encrypt::encrypt(std::string &text, std::string &key) {
-    int keyCounter {0};
+    int keyCounter{0};
     std::string cypherText = {};
     for (char &let: text) {
         cypherText += Utilities::moveLetter(let, key[keyCounter]);
-        if ((let >= 'a' && let <= 'z') || (let >= 'A' && let <='Z')) {
-            if (keyCounter >= key.length() - 1) {
+        if ((let >= 'a' && let <= 'z') || (let >= 'A' && let <= 'Z')) {
+            if (keyCounter >= key.length() - 2) {
                 keyCounter = 0;
             } else {
                 keyCounter++;

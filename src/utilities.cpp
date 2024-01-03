@@ -3,35 +3,32 @@
 
 void Utilities::saveTextToFile(std::string &path, std::string &text) {
     std::ofstream fileStream(path);
-    fileStream<<text;
+    fileStream << text;
     fileStream.close();
 }
 
 std::string Utilities::loadTextFromFile(std::string &path) {
     std::ifstream fileStream(path);
-    std::string text {}, tmpText {};
-    while(std::getline(fileStream, tmpText))
-    {
-        text += tmpText+ '\n';
+    std::string text{}, tmpText{};
+    while (std::getline(fileStream, tmpText)) {
+        text += tmpText + '\n';
     }
 
     fileStream.close();
     return text;
 }
 
-char Utilities::moveLetter(char &letter, char &key){
-    if(letter >= 'a' && letter <= 'z'){
-        if (letter + key - 'a' > 'z'){
-            return  char(letter + key - 'z' - 1);
-        }
-        else {
+char Utilities::moveLetter(char &letter, char &key) {
+    if (letter >= 'a' && letter <= 'z') {
+        if (letter + key - 'a' > 'z') {
+            return char(letter + key - 'z' - 1);
+        } else {
             return char(letter + key - 'a');
         }
     } else if (letter >= 'A' && letter <= 'Z') {
-        if (letter + key - 'a' > 'Z'){
+        if (letter + key - 'a' > 'Z') {
             return char(letter + key - 'z' - 1);
-        }
-        else {
+        } else {
             return char(letter + key - 'a');
         }
     } else {
@@ -40,15 +37,15 @@ char Utilities::moveLetter(char &letter, char &key){
 }
 
 char Utilities::undoLetter(char &letter, char &key) {
-    if(letter >= 'a' && letter <= 'z'){
-        if (letter - key + 'a' < 'a'){
+    if (letter >= 'a' && letter <= 'z') {
+        if (letter - key + 'a' < 'a') {
             return char(letter - key + 'z' + 1);
         } else {
             return char(letter - key + 'a');
         }
-    } else if (letter >= 'A' && letter <= 'Z'){
-        if(letter - key + 'a' > 'Z'){
-            return char(letter - key + 'z');
+    } else if (letter >= 'A' && letter <= 'Z') {
+        if (letter - key + 'a' < 'A') {
+            return char(letter - key + 'z' + 1);
         } else {
             return char(letter - key + 'a');
         }
@@ -57,15 +54,15 @@ char Utilities::undoLetter(char &letter, char &key) {
     }
 }
 
-bool Utilities::validateInput(flags &pickedMode, FilePaths &filePaths){
+bool Utilities::validateInput(flags &pickedMode, FilePaths &filePaths) {
     switch (pickedMode) {
         case flags::encrypt:
         case flags::decrypt:
-        case flags::breakingKey:{
+        case flags::breakingKey: {
             return !filePaths.inputFile.empty() && !filePaths.outputFile.empty() && !filePaths.keyFile.empty();
         }
         default:// it should never happen
-        case flags::error:{
+        case flags::error: {
             return false;
         }
     }

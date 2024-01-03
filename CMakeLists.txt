@@ -14,4 +14,6 @@ add_executable(VigenereEncryption main.cpp
         inc/utilities.h
         inc/flags.h
         inc/filePathStruct.h
+        inc/englishLetterFrequency.h
+        inc/constants.h
 )
