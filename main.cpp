@@ -13,6 +13,7 @@ int main(int argv, char *argc[]) {
     flags pickedMode{flags::error};
     FilePaths filePaths = {};
     int argsEvaluated{1}; // we ignore first arg because is path to executable file
+    int maxLengthToAnalyse{};
     while (argsEvaluated < argv) {
         std::string currentArg = argc[argsEvaluated];
         if (currentArg == Constants::encryptFlag) {
@@ -27,6 +28,8 @@ int main(int argv, char *argc[]) {
             filePaths.outputFile = argc[argsEvaluated + 1];
         } else if (currentArg == Constants::keyFileSwitch && argsEvaluated + 1 < argv) {
             filePaths.keyFile = argc[argsEvaluated + 1];
+        } else if (currentArg == Constants::maxLengthToAnalyseSwitch && argsEvaluated + 1 < argv) {
+            maxLengthToAnalyse = std::stoi(argc[argsEvaluated + 1]);
         } else {
             // do nothing
         }
@@ -53,7 +56,7 @@ int main(int argv, char *argc[]) {
         }
         case flags::breakingKey: {
             std::string cypherText = Utilities::loadTextFromFile(filePaths.inputFile);
-            std::string key = BreakEncryption::findKey(cypherText);
+            std::string key = BreakEncryption::findKey(cypherText, maxLengthToAnalyse);
             Utilities::saveTextToFile(filePaths.keyFile, key);
             std::string plainText = Decrypt::decrypt(cypherText, key);
             Utilities::saveTextToFile(filePaths.outputFile, plainText);

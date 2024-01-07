@@ -9,7 +9,7 @@
 
 
 namespace BreakEncryption {
-    std::string findKey(std::string &cypherText);
+    std::string findKey(std::string &cypherText, int &textLengthToAnalyse);
 
     int kasiskiExamination(std::string &cleanCypherText);
 

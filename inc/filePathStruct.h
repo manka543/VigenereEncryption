@@ -1,5 +1,5 @@
 //
-// Created by manka on 28/11/2023.
+// Created by manka543 on 28/11/2023.
 //
 
 #ifndef VIGENEREENCRYPTION_FILEPATHSTRUCT_H

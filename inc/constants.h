@@ -8,7 +8,7 @@ namespace Constants {
     constexpr std::string_view inputFileSwitch = "-i";
     constexpr std::string_view keyFileSwitch = "-k";
     constexpr std::string_view outputFileSwitch = "-o";
-    constexpr std::string_view maxLengthToAnalyse = "-m";
+    constexpr std::string_view maxLengthToAnalyseSwitch = "-m";
     constexpr std::string_view helpMessage = "Usage: ./main [flag] [options]\n"
                                     "\n"
                                     "Flags:\n"

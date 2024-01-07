@@ -1,17 +1,19 @@
 //
-// Created by manka on 10/11/2023.
+// Created by manka543 on 10/11/2023.
 //
 
 #include "../inc/breakEncryption.h"
 #include "../inc/englishLetterFrequency.h"
 #include <unordered_map>
+#include <vector>
 #include <limits>
+#include <iostream>
 
 
-std::string BreakEncryption::findKey(std::string &cypherText) {
+std::string BreakEncryption::findKey(std::string &cypherText, int &textLengthToAnalyse) {
     std::string key{}, cleanText = {};
 
-    for (char let: cypherText) {
+    for (char let: cypherText.substr(0, (textLengthToAnalyse < cypherText.length() && textLengthToAnalyse != 0 ? textLengthToAnalyse : cypherText.length()))) {
         if (isalpha(let)) {
             cleanText += (char) tolower(let);
         }
@@ -32,7 +34,7 @@ int BreakEncryption::kasiskiExamination(std::string &cleanCypherText) {
             size_t nextPosition = cleanCypherText.find(text, j + i);
             if (nextPosition != std::string::npos) {
                 int difference = (int) nextPosition - j;
-                for (int k = 2; k < (20 < difference ? 20 : difference); k++) {
+                for (int k = 2; k < difference; k++) {
                     if (difference % k == 0) {
                         factors[k]++;
                     }
@@ -40,14 +42,15 @@ int BreakEncryption::kasiskiExamination(std::string &cleanCypherText) {
             }
         }
     }
-    int max = factors[2], len = 2;
-    for (int i = 3; i < 20; i++) {
-        if (factors[i] > max * 0.8) {
-            len = i;
-            if (factors[i] > max) {
-                max = factors[i];
-            }
+
+    int len{};
+    std::vector<std::pair<int, int>> sorted(factors.begin(), factors.end());
+    std::sort(sorted.begin(), sorted.end(), [](const auto &a, const auto &b){return a.second>b.second;});
+    for (int i=0; i<10; i++){
+        if(sorted[i].second > sorted[0].second*0.7){
+            len = sorted[i].first;
         }
+        std::cout<<sorted[i].first<<": "<<(int)sorted[i].second*100/sorted[0].second<<" pkt\n";
     }
     return len;
 }
