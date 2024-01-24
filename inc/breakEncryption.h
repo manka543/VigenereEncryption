@@ -6,12 +6,13 @@
 #define VIGENEREENCRYPTION_BREAKENCRYPTION_H
 
 #include <string>
+#include <vector>
 
 
 namespace BreakEncryption {
     std::string findKey(std::string &cypherText, int &textLengthToAnalyse);
 
-    int kasiskiExamination(std::string &cleanCypherText);
+    std::vector<std::pair<int, int>> kasiskiExamination(std::string &cleanCypherText);
 
     char findCaesarShift(std::string &cleanCypherText, int keyLength, int shift);
 }

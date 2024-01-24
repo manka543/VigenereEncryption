@@ -7,11 +7,14 @@
 
 #include <iostream>
 #include <fstream>
-#include "filePathStruct.h"
+#include "userInput.h"
 #include "flags.h"
+#include <vector>
 
 namespace Utilities {
     void saveTextToFile(std::string &path, std::string &text);
+
+    void saveKeyLengthScores(std::string &path, std::vector<std::pair<int, int>> &keyScores);
 
     std::string loadTextFromFile(std::string &path);
 
@@ -20,6 +23,8 @@ namespace Utilities {
     char undoLetter(char &letter, char &key);
 
     bool validateInput(flags &pickedMode, FilePaths &filePaths);
+
+    std::string cleanText(std::string &cypherText, int &textLengthToAnalyse);
 }
 
 #endif //VIGENEREENCRYPTION_UTILITIES_H

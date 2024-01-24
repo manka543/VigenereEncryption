@@ -1,32 +1,33 @@
-//
-// Created by manka543 on 10/11/2023.
-//
-
 #include "../inc/breakEncryption.h"
 #include "../inc/englishLetterFrequency.h"
+#include "../inc/utilities.h"
 #include <unordered_map>
 #include <vector>
 #include <limits>
 #include <iostream>
+#include <algorithm>
 
 
 std::string BreakEncryption::findKey(std::string &cypherText, int &textLengthToAnalyse) {
-    std::string key{}, cleanText = {};
+    std::string key{}, cleanText = Utilities::cleanText(cypherText, textLengthToAnalyse);
+    int keyLength{};
 
-    for (char let: cypherText.substr(0, (textLengthToAnalyse < cypherText.length() && textLengthToAnalyse != 0 ? textLengthToAnalyse : cypherText.length()))) {
-        if (isalpha(let)) {
-            cleanText += (char) tolower(let);
+    std::vector<std::pair<int, int>> keyLengthPoints = kasiskiExamination(cleanText);
+
+    for (int i=0; i<10; i++){
+        if(keyLengthPoints[i].second > keyLengthPoints[0].second*0.7){
+            keyLength = keyLengthPoints[i].first;
         }
+        std::cout<<keyLengthPoints[i].first<<": "<<(int)keyLengthPoints[i].second*100/keyLengthPoints[0].second<<" pkt\n";
     }
 
-    int keyLength = kasiskiExamination(cleanText);
     for (int shift = 0; shift < keyLength; shift++) {
         key += findCaesarShift(cleanText, keyLength, shift);
     }
     return key;
 }
 
-int BreakEncryption::kasiskiExamination(std::string &cleanCypherText) {
+std::vector<std::pair<int, int>> BreakEncryption::kasiskiExamination(std::string &cleanCypherText) {
     std::unordered_map<int, int> factors{};
     for (int i = 3; i < 10; i++) {
         for (int j = 0; j < cleanCypherText.length() - i; j++) {
@@ -43,16 +44,9 @@ int BreakEncryption::kasiskiExamination(std::string &cleanCypherText) {
         }
     }
 
-    int len{};
     std::vector<std::pair<int, int>> sorted(factors.begin(), factors.end());
     std::sort(sorted.begin(), sorted.end(), [](const auto &a, const auto &b){return a.second>b.second;});
-    for (int i=0; i<10; i++){
-        if(sorted[i].second > sorted[0].second*0.7){
-            len = sorted[i].first;
-        }
-        std::cout<<sorted[i].first<<": "<<(int)sorted[i].second*100/sorted[0].second<<" pkt\n";
-    }
-    return len;
+    return sorted;
 }
 
 
