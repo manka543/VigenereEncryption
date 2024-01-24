@@ -6,7 +6,7 @@ namespace Constants {
     constexpr std::string_view decryptFlag = "--de";
     constexpr std::string_view breakingKeyFlag = "--br";
     constexpr std::string_view onlyFindKeyLengthFlag = "--br-key-len";
-    constexpr std::string_view specifyKeyLengthSwitch = "-key-length";
+    constexpr std::string_view specifyKeyLengthSwitch = "-k-len";
     constexpr std::string_view inputFileSwitch = "-i";
     constexpr std::string_view keyFileSwitch = "-k";
     constexpr std::string_view outputFileSwitch = "-o";

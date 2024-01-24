@@ -25,6 +25,10 @@ namespace Utilities {
     bool validateInput(flags &pickedMode, FilePaths &filePaths);
 
     std::string cleanText(std::string &cypherText, int &textLengthToAnalyse);
+
+    UserInput parseUserInput(int argv, char *argc[]);
+
+    void runSubprogram(UserInput& userInput);
 }
 
 #endif //VIGENEREENCRYPTION_UTILITIES_H
