@@ -1,3 +1,9 @@
+
+/**
+ * @file decrypt.cpp
+ * @brief Implementation of Vigenere Decryption.
+ */
+
 #include "../inc/decrypt.h"
 #include "../inc/utilities.h"
 

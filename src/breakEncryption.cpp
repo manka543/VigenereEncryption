@@ -1,3 +1,9 @@
+
+/**
+ * @file breakEncryption.cpp
+ * @brief Implementation of functions for breaking the Vigenere Encryption key.
+ */
+
 #include "../inc/breakEncryption.h"
 #include "../inc/englishLetterFrequency.h"
 #include "../inc/utilities.h"
@@ -18,7 +24,6 @@ std::string BreakEncryption::findKey(std::string &cypherText, int &textLengthToA
         if(keyLengthPoints[i].second > keyLengthPoints[0].second*0.7){
             keyLength = keyLengthPoints[i].first;
         }
-        std::cout<<keyLengthPoints[i].first<<": "<<(int)keyLengthPoints[i].second*100/keyLengthPoints[0].second<<" pkt\n";
     }
 
     return findKeyWithKnownKeyLength(cleanText, keyLength);

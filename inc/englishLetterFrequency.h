@@ -1,9 +1,18 @@
+
+/**
+ * @file englishLetterFrequency.h
+ * @brief Header file for English letter frequency values.
+ */
+
 #ifndef VIGENEREENCRYPTION_ENGLISHLETTERFREQUENCY_H
 #define VIGENEREENCRYPTION_ENGLISHLETTERFREQUENCY_H
 
 #include <unordered_map>
 
-std::unordered_map<char, double> englishLetterFrequency{
+/**
+ * @brief Map of English letter frequencies.
+ */
+const std::unordered_map<char, double> englishLetterFrequency{
         {'e', 0.111607},
         {'m', 0.030129},
         {'a', 0.084966},

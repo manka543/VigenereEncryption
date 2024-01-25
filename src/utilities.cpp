@@ -1,3 +1,9 @@
+
+/**
+ * @file utilities.cpp
+ * @brief Implementation of utility functions used in the program.
+ */
+
 #include "../inc/utilities.h"
 #include "constants.h"
 #include "encrypt.h"
@@ -57,13 +63,18 @@ char Utilities::undoLetter(char &letter, char &key) {
     }
 }
 
-bool Utilities::validateInput(flags &pickedMode, FilePaths &filePaths) {
-    switch (pickedMode) {
-        case flags::encrypt:
-        case flags::decrypt:
+bool Utilities::validateInput(UserInput &userInput) {
+    switch (userInput.pickedMode) {
         case flags::breakingKeyLength:
-        case flags::breakingKey: {
-            return !filePaths.inputFile.empty() && !filePaths.outputFile.empty() && !filePaths.keyFile.empty();
+            return !userInput.filePaths.inputFile.empty() && !userInput.filePaths.keyFile.empty();
+        case flags::breakingKey:
+            if (userInput.isKeyLenSpecified and userInput.keyLength <= 0){
+                return false;
+            } // it is intentional to not break code here, because when there is breakingKey mode with key len
+            // specified, it needs to check things as in other cases with additional checking provided key len
+        case flags::encrypt:
+        case flags::decrypt:{
+            return !userInput.filePaths.inputFile.empty() && !userInput.filePaths.outputFile.empty() && !userInput.filePaths.keyFile.empty();
         }
         default:// it should never happen
         case flags::error: {
@@ -104,7 +115,7 @@ UserInput Utilities::parseUserInput(int argv, char *argc[]) {
     return userInput;
 }
 
-std::string Utilities::cleanText(std::string &cypherText, int &textLengthToAnalyse) {
+std::string Utilities::cleanText(std::string &cypherText, const int &textLengthToAnalyse) {
     std::string cleanText = {};
 
     for (char let: cypherText.substr(0, (textLengthToAnalyse < cypherText.length() && textLengthToAnalyse != 0 ? textLengthToAnalyse : cypherText.length()))) {
@@ -130,6 +141,7 @@ void Utilities::runSubprogram(UserInput &userInput) {
         case flags::encrypt: {
             std::string plainText = Utilities::loadTextFromFile(userInput.filePaths.inputFile);
             std::string key = Utilities::loadTextFromFile(userInput.filePaths.keyFile);
+            key = Utilities::cleanText(key, cleanFullTextLenValue);
             std::string cypherText = Encrypt::encrypt(plainText, key);
             Utilities::saveTextToFile(userInput.filePaths.outputFile, cypherText);
             break;
@@ -137,6 +149,7 @@ void Utilities::runSubprogram(UserInput &userInput) {
         case flags::decrypt: {
             std::string cypherText = Utilities::loadTextFromFile(userInput.filePaths.inputFile);
             std::string key = Utilities::loadTextFromFile(userInput.filePaths.keyFile);
+            key = Utilities::cleanText(key, cleanFullTextLenValue);
             std::string plainText = Decrypt::decrypt(cypherText, key);
             Utilities::saveTextToFile(userInput.filePaths.outputFile, plainText);
             break;
@@ -153,7 +166,6 @@ void Utilities::runSubprogram(UserInput &userInput) {
             Utilities::saveTextToFile(userInput.filePaths.keyFile, key);
             std::string plainText = Decrypt::decrypt(cypherText, key);
             Utilities::saveTextToFile(userInput.filePaths.outputFile, plainText);
-            break;
             break;
         }
         case flags::breakingKeyLength:{
