@@ -10,7 +10,6 @@
 #include <unordered_map>
 #include <vector>
 #include <limits>
-#include <iostream>
 #include <algorithm>
 
 
@@ -73,7 +72,7 @@ char BreakEncryption::findCaesarShift(std::string &cleanCypherText, int keyLengt
         for (char chr = 'a'; chr <= 'z'; chr++) {
             double frequency =
                     (double) count[(char) (chr + i <= 'z' ? chr + i : chr + i - 'z' + 'a' - 1)] / (double) len;
-            score += std::abs(frequency - englishLetterFrequency[chr]);
+            score += std::abs(frequency - englishLetterFrequency.at(chr));
         }
         if (score < bestScore) {
             bestScore = score;

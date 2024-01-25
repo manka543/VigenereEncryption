@@ -7,9 +7,6 @@
 #include <iostream>
 #include "inc/utilities.h"
 #include "inc/encrypt.h"
-#include "inc/decrypt.h"
-#include "inc/breakEncryption.h"
-#include "inc/flags.h"
 #include "inc/userInput.h"
 #include "inc/constants.h"
 
