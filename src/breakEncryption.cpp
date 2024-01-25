@@ -21,10 +21,7 @@ std::string BreakEncryption::findKey(std::string &cypherText, int &textLengthToA
         std::cout<<keyLengthPoints[i].first<<": "<<(int)keyLengthPoints[i].second*100/keyLengthPoints[0].second<<" pkt\n";
     }
 
-    for (int shift = 0; shift < keyLength; shift++) {
-        key += findCaesarShift(cleanText, keyLength, shift);
-    }
-    return key;
+    return findKeyWithKnownKeyLength(cleanText, keyLength);
 }
 
 std::vector<std::pair<int, int>> BreakEncryption::kasiskiExamination(std::string &cleanCypherText) {
@@ -80,4 +77,12 @@ char BreakEncryption::findCaesarShift(std::string &cleanCypherText, int keyLengt
     }
 
     return bestScoreShift;
+}
+
+std::string BreakEncryption::findKeyWithKnownKeyLength(std::string &cleanCypherText, int &keyLength) {
+    std::string key{};
+    for(int letNumber = 0; letNumber<keyLength; letNumber++){
+        key.push_back(findCaesarShift(cleanCypherText, keyLength, letNumber));
+    }
+    return key;
 }

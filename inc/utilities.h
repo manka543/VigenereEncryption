@@ -1,7 +1,3 @@
-//
-// Created by manka on 10/11/2023.
-//
-
 #ifndef VIGENEREENCRYPTION_UTILITIES_H
 #define VIGENEREENCRYPTION_UTILITIES_H
 

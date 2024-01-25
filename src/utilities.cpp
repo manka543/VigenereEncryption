@@ -1,4 +1,3 @@
-
 #include "../inc/utilities.h"
 #include "constants.h"
 #include "encrypt.h"
@@ -144,10 +143,17 @@ void Utilities::runSubprogram(UserInput &userInput) {
         }
         case flags::breakingKey: {
             std::string cypherText = Utilities::loadTextFromFile(userInput.filePaths.inputFile);
-            std::string key = BreakEncryption::findKey(cypherText, userInput.maxTextLengthToAnalyse);
+            std::string key{};
+            if (userInput.isKeyLenSpecified) {
+                std::string cleanCypherText = Utilities::cleanText(cypherText, userInput.maxTextLengthToAnalyse);
+                key = BreakEncryption::findKeyWithKnownKeyLength(cleanCypherText, userInput.keyLength);
+            } else {
+                key = BreakEncryption::findKey(cypherText, userInput.maxTextLengthToAnalyse);
+            }
             Utilities::saveTextToFile(userInput.filePaths.keyFile, key);
             std::string plainText = Decrypt::decrypt(cypherText, key);
             Utilities::saveTextToFile(userInput.filePaths.outputFile, plainText);
+            break;
             break;
         }
         case flags::breakingKeyLength:{

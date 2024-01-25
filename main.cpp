@@ -8,7 +8,6 @@
 #include "inc/constants.h"
 
 
-
 int main(int argv, char *argc[]) {
     UserInput userInput = Utilities::parseUserInput(argv, argc);
 

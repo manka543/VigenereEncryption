@@ -1,7 +1,3 @@
-//
-// Created by manka543 on 28/11/2023.
-//
-
 #ifndef VIGENEREENCRYPTION_USERINPUT_H
 #define VIGENEREENCRYPTION_USERINPUT_H
 

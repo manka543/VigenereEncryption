@@ -1,7 +1,3 @@
-//
-// Created by manka on 10/11/2023.
-//
-
 #include "../inc/encrypt.h"
 #include "../inc/utilities.h"
 
