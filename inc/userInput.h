@@ -1,7 +1,7 @@
 
 /**
  * @file userInput.h
- * @brief Header file for user input data structures.
+ * @brief Header file containing the UserInput struct for Vigenere Encryption program.
  */
 
 #ifndef VIGENEREENCRYPTION_USERINPUT_H
@@ -11,7 +11,7 @@
 #include "flags.h"
 
 /**
- * @brief Structure representing file paths for input, output, and key files.
+ * @brief Structure representing file paths used in the program.
  */
 struct FilePaths {
     std::string inputFile;
@@ -19,9 +19,9 @@ struct FilePaths {
     std::string keyFile;
 };
 
-
 /**
- * @brief Structure representing user input data.
+ * @struct UserInput
+ * @brief Represents user input choices for Vigenere Encryption program.
  */
 struct UserInput {
     FilePaths filePaths{};

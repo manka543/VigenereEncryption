@@ -1,7 +1,7 @@
 
 /**
  * @file breakEncryption.h
- * @brief Header file for breaking the Vigenere Encryption key.
+ * @brief Header file containing functions related to breaking Vigenere encryption.
  */
 
 #ifndef VIGENEREENCRYPTION_BREAKENCRYPTION_H
@@ -12,44 +12,68 @@
 #include "userInput.h"
 
 namespace BreakEncryption {
-    constexpr double KEY_LENGTH_SCORE_THRESHOLD_VALUE = 0.7;
-    constexpr int SMALLEST_REPETITION_EVALUATED = 3;
-    constexpr int HIGHEST_REPETITION_EVALUATED = 10;
-    constexpr int MIN_KEY_LENGTH = 2;
     /**
-     * @brief Find the Vigenere Encryption key given a ciphertext and maximum text length to analyze.
-     * @param cypherText The input ciphertext.
+     * @brief Threshold value for key length score during evaluation.
+     */
+    constexpr double KEY_LENGTH_SCORE_THRESHOLD_VALUE = 0.7;
+
+    /**
+     * @brief Minimum repetition length considered during Kasiski Examination.
+     */
+    constexpr int SMALLEST_REPETITION_EVALUATED = 3;
+
+    /**
+     * @brief Maximum repetition length considered during Kasiski Examination.
+     */
+    constexpr int HIGHEST_REPETITION_EVALUATED = 10;
+
+    /**
+     * @brief Minimum allowed key length.
+     */
+    constexpr int MIN_KEY_LENGTH = 2;
+
+    /**
+     * @brief Finds the encryption key for a given cipher text.
+     * @param cypherText The cipher text to analyze.
      * @param textLengthToAnalyse The maximum length of text to analyze.
-     * @return The discovered Vigenere Encryption key.
+     * @return The found encryption key.
      */
     std::string findKey(std::string &cypherText, int &textLengthToAnalyse);
 
     /**
-     * @brief Perform Kasiski Examination to analyze the ciphertext and identify potential key lengths.
-     * @param cleanCypherText The cleaned version of the input ciphertext.
-     * @return A vector of pairs representing potential key lengths and their occurrences.
+     * @brief Performs Kasiski Examination to find possible key lengths.
+     * @param cleanCypherText The cleaned cipher text.
+     * @return A vector of pairs representing possible key lengths and their scores.
      */
     std::vector<std::pair<int, int>> kasiskiExamination(std::string &cleanCypherText);
 
     /**
-     * @brief Find the Vigenere Encryption key with a known key length.
-     * @param cleanCypherText The cleaned version of the input ciphertext.
+     * @brief Finds the encryption key with a known key length.
+     * @param cleanCypherText The cleaned cipher text.
      * @param keyLength The known key length.
-     * @return The discovered Vigenere Encryption key.
+     * @return The found encryption key.
      */
     std::string findKeyWithKnownKeyLength(std::string &cleanCypherText, int &keyLength);
 
     /**
-     * @brief Find the Caesar shift for a specific position in the cleaned ciphertext.
-     * @param cleanCypherText The cleaned version of the input ciphertext.
-     * @param keyLength The known key length.
-     * @param shift The specific position to analyze.
-     * @return The discovered Caesar shift for the specified position.
+     * @brief Finds the Caesar shift for a given clean cipher text.
+     * @param cleanCypherText The cleaned cipher text.
+     * @param keyLength The key length used for encryption.
+     * @param shift The shift to analyze.
+     * @return The found Caesar shift character.
      */
     char findCaesarShift(std::string &cleanCypherText, int keyLength, int shift);
 
+    /**
+     * @brief Runs the main breaking encryption subprogram.
+     * @param userInput User input data.
+     */
     void runSubprogram(UserInput& userInput);
 
+    /**
+     * @brief Runs the subprogram for breaking key lengths.
+     * @param userInput User input data.
+     */
     void runKeyLengthBreakingSubprogram(UserInput& userInput);
 }
 

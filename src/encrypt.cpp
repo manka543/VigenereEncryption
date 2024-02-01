@@ -1,7 +1,7 @@
 
 /**
  * @file encrypt.cpp
- * @brief Implementation of Vigenere Encryption.
+ * @brief Implementation file for Vigenere encryption functions.
  */
 
 #include "../inc/encrypt.h"

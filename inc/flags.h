@@ -1,4 +1,5 @@
 
+
 /**
  * @file flags.h
  * @brief Header file for enumeration of program modes.
@@ -9,7 +10,7 @@
 
 
 /**
- * @brief Enumeration representing different program modes.
+ * @brief Enum representing different operation modes.
  */
 enum class flags : int {
     encrypt = 0,

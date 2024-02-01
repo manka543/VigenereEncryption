@@ -10,7 +10,7 @@
 #include <unordered_map>
 
 /**
- * @brief Map of English letter frequencies.
+ * @brief Map of English letter frequencies for use in frequency analysis.
  */
 const std::unordered_map<char, double> englishLetterFrequency{
         {'e', 0.111607},

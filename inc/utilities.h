@@ -1,7 +1,7 @@
 
 /**
  * @file utilities.h
- * @brief Header file for utility functions used in the program.
+ * @brief Header file containing utility functions for Vigenere Encryption program.
  */
 
 #ifndef VIGENEREENCRYPTION_UTILITIES_H
@@ -14,12 +14,32 @@
 #include <vector>
 
 namespace Utilities {
+
+    /**
+     * @brief Parses user input and returns a UserInput object.
+     * @param argc The number of command-line arguments.
+     * @param argv An array containing the command-line arguments.
+     * @return A UserInput object containing parsed user input.
+     */
+    UserInput parseUserInput(int argv, char *argc[]);
+
+    /**
+     * @brief Validates the user input for correctness.
+     * @param userInput The UserInput object to validate.
+     * @return True if the input is valid, false otherwise.
+     */
+    bool validateInput(UserInput &userInput);
+
+    /**
+     * @brief Number of key scores to be shown when breaking the encryption key.
+     */
     constexpr int KEY_SCORES_SHOWN = 10;
 
     /**
-     * @brief Save text to a file.
-     * @param path The file path.
-     * @param text The text to save.
+     * @brief Saves the provided text to the specified file path.
+     *
+     * @param path The file path to save the text.
+     * @param text The text to be saved.
      */
     void saveTextToFile(std::string &path, std::string &text);
 
@@ -30,6 +50,15 @@ namespace Utilities {
      */
     void saveKeyLengthScores(std::string &path, std::vector<std::pair<int, int>> &keyScores);
 
+    /**
+     * @brief Validates the provided encryption or decryption key.
+     *
+     * This function checks if the provided key is valid for Vigenère cipher encryption or decryption.
+     * The key is considered valid if it consists only of alphabetical characters (A-Z or a-z).
+     *
+     * @param key The key to be validated.
+     * @return True if the key is valid, false otherwise.
+     */
     std::string validateKey(const std::string &key);
 
     /**
@@ -47,6 +76,7 @@ namespace Utilities {
      */
     char moveLetter(char &letter, char &key);
 
+
     /**
      * @brief Undo the movement of a letter using the Vigenere cipher.
      * @param letter The letter to undo.
@@ -55,12 +85,7 @@ namespace Utilities {
      */
     char undoLetter(char &letter, char &key);
 
-    /**
-     * @brief Validate user input based on the selected program mode.
-     * @param userInput The user input to validate.
-     * @return True if the input is valid, false otherwise.
-     */
-    bool validateInput(UserInput &userInput);
+
 
 
     constexpr int cleanFullTextLenValue = 0;
@@ -72,20 +97,17 @@ namespace Utilities {
      */
     std::string cleanText(std::string &cypherText, const int &textLengthToAnalyse);
 
-    /**
-     * @brief Parse user input arguments and create a UserInput struct.
-     * @param argv The number of command line arguments.
-     * @param argc An array of command line argument strings.
-     * @return The parsed UserInput struct.
-     */
-    UserInput parseUserInput(int argv, char *argc[]);
 
     /**
-     * @brief Run the selected subprogram based on user input.
-     * @param userInput The user input specifying the subprogram.
+     * @brief Executes the selected subprogram based on user input.
+     * @param userInput The UserInput object containing user choices.
      */
     void runSubprograms(UserInput& userInput);
 
+    /**
+     * @brief Show help messages for selected program mode.
+     * @param userInput The UserInput object containing selected mode.
+     */
     void showHelpMessages(UserInput& userInput);
 }
 

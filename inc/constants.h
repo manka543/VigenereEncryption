@@ -1,6 +1,7 @@
+
 /**
  * @file constants.h
- * @brief Header file for program constants and help messages.
+ * @brief Header file containing constant values for Vigenere Encryption program.
  */
 
 #ifndef VIGENEREENCRYPTION_CONSTANTS_H
@@ -8,9 +9,6 @@
 
 namespace Constants {
 
-    /**
-     * @brief Command line flags and options for the Vigenere Encryption program.
-     */
 
     constexpr std::string_view encryptFlag = "--en";
     constexpr std::string_view decryptFlag = "--de";
@@ -21,6 +19,9 @@ namespace Constants {
     constexpr std::string_view keyFileSwitch = "-k";
     constexpr std::string_view outputFileSwitch = "-o";
     constexpr std::string_view maxLengthToAnalyseSwitch = "-m";
+    /**
+     * @brief Help message providing information about program usage.
+     */
     constexpr std::string_view helpMessage = "Usage: ./main [flag] [options]\n"
                                              "\n"
                                              "Flags:\n"

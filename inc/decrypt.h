@@ -11,14 +11,21 @@
 #include "userInput.h"
 
 namespace Decrypt {
+
     /**
-     * @brief Decrypt the input ciphertext using the Vigenere cipher.
-     * @param cypherText The input ciphertext to be decrypted.
-     * @param encryptionKey The decryption key.
+     * @brief Decrypts the provided ciphertext using Vigenere cipher.
+     *
+     * @param cypherText The ciphertext to be decrypted.
+     * @param key The decryption key.
      * @return The decrypted plaintext.
      */
     std::string decrypt(std::string cypherText, std::string encryptionKey);
 
+    /**
+     * @brief Runs the decryption subprogram based on the user input.
+     *
+     * @param userInput The user input specifying the decryption parameters.
+     */
     void runSubprogram(UserInput &userInput);
 }
 
