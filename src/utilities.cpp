@@ -27,6 +27,44 @@ std::string Utilities::loadTextFromFile(std::string &path) {
     return text;
 }
 
+std::string Utilities::validateKey(const std::string &key){
+    std::string validKey;
+    bool invalidChar = false, invalidCaseLetter = false, space = false, newLine = false;
+    for(char let : key){
+        if(let < 'a' or let > 'z'){
+            if(let >= 'A' and let <= 'Z'){
+                if(!invalidCaseLetter){
+                    invalidCaseLetter = true;
+                    validKey.push_back((char)tolower(let));
+                }
+            } else if (let == ' ') {
+                if(!space){
+                    space = true;
+                    std::cout<<"WARNING: Key should not contain spaces!!!\nContinuing without them\n";
+                }
+            } else if (let == '\n'){
+                if(!newLine){
+                    newLine = true;
+                    std::cout<<"WARNING: Key should not contain new line chars!!!\nContinuing without them\n";
+                }
+            } else {
+                if(!invalidChar){
+                    invalidChar = true;
+                    std::cout<<"WARNING: Key should not contain anything except chars from 'a' - 'z'\nContinuing without them\n";
+                }
+                std::cout<<"WARNING: Invalid character found: "<<let<<std::endl;
+            }
+        }
+    }
+    if(!key.empty()){
+        if(invalidChar || invalidCaseLetter || space || newLine){
+            std::cout<<"Key after corrections looks like: '"<<key<<"'\n";
+        }
+        return key;
+    }
+    throw std::runtime_error("ERROR: Wrong key!!!");
+}
+
 char Utilities::moveLetter(char &letter, char &key) {
     if (letter >= 'a' && letter <= 'z') {
         if (letter + key - 'a' > 'z') {
@@ -64,20 +102,24 @@ char Utilities::undoLetter(char &letter, char &key) {
 }
 
 bool Utilities::validateInput(UserInput &userInput) {
+    if(userInput.showHelpMessage && userInput.pickedMode != flags::error){
+        return true;
+    }
     switch (userInput.pickedMode) {
         case flags::breakingKeyLength:
             return !userInput.filePaths.inputFile.empty() && !userInput.filePaths.keyFile.empty();
         case flags::breakingKey:
             if (userInput.isKeyLenSpecified and userInput.keyLength <= 0){
+                std::cout<<"ERROR: Provided wrong key length: "<<userInput.keyLength<<std::endl;
                 return false;
-            } // it is intentional to not break code here, because when there is breakingKey mode with key len
-            // specified, it needs to check things as in other cases with additional checking provided key len
+            }
+            return !userInput.filePaths.inputFile.empty() && !userInput.filePaths.outputFile.empty();
         case flags::encrypt:
         case flags::decrypt:{
             return !userInput.filePaths.inputFile.empty() && !userInput.filePaths.outputFile.empty() && !userInput.filePaths.keyFile.empty();
         }
         default:// it should never happen
-        case flags::error: {
+        case flags::error: { // in case of unexpected argument
             return false;
         }
     }
@@ -96,19 +138,28 @@ UserInput Utilities::parseUserInput(int argv, char *argc[]) {
             userInput.pickedMode = flags::breakingKey;
         } else if (currentArg == Constants::onlyFindKeyLengthFlag) {
             userInput.pickedMode = flags::breakingKeyLength;
-        }else if (currentArg == Constants::inputFileSwitch && argsEvaluated + 1 < argv) {
+        } else if (currentArg == Constants::helpFlag) {
+            userInput.showHelpMessage = true;
+        } else if (currentArg == Constants::inputFileSwitch && argsEvaluated + 1 < argv) {
             userInput.filePaths.inputFile = argc[argsEvaluated + 1];
+            argsEvaluated++;
         } else if (currentArg == Constants::outputFileSwitch && argsEvaluated + 1 < argv) {
             userInput.filePaths.outputFile = argc[argsEvaluated + 1];
+            argsEvaluated++;
         } else if (currentArg == Constants::keyFileSwitch && argsEvaluated + 1 < argv) {
             userInput.filePaths.keyFile = argc[argsEvaluated + 1];
+            argsEvaluated++;
         } else if (currentArg == Constants::maxLengthToAnalyseSwitch && argsEvaluated + 1 < argv) {
             userInput.maxTextLengthToAnalyse = std::stoi(argc[argsEvaluated + 1]);
+            argsEvaluated++;
         }  else if (currentArg == Constants::specifyKeyLengthSwitch && argsEvaluated + 1 < argv) {
             userInput.isKeyLenSpecified = true;
             userInput.keyLength = std::stoi(argc[argsEvaluated + 1]);
+            argsEvaluated++;
         } else {
-            // do nothing
+            std::cout<<"ERROR: Unexpected argument: "<<argc[argsEvaluated]<<std::endl;
+            userInput.pickedMode = flags::error;
+            return userInput;
         }
         argsEvaluated++;
     }
@@ -119,7 +170,7 @@ std::string Utilities::cleanText(std::string &cypherText, const int &textLengthT
     std::string cleanText = {};
 
     for (char let: cypherText.substr(0, (textLengthToAnalyse < cypherText.length() && textLengthToAnalyse != 0 ? textLengthToAnalyse : cypherText.length()))) {
-        if (isalpha(let)) {
+        if ((let >= 'a' && let <= 'z') || (let >= 'A' && let <= 'Z')) {
             cleanText += (char) tolower(let);
         }
     }
@@ -129,55 +180,58 @@ std::string Utilities::cleanText(std::string &cypherText, const int &textLengthT
 void Utilities::saveKeyLengthScores(std::string &path, std::vector<std::pair<int, int>> &keyScores) {
     std::ofstream fileStream{path};
     if(fileStream){
-        for(int i = 0; i < (10 < keyScores.size() ? 10 : keyScores.size()); i++){
-            fileStream << keyScores[i].first << ": " << keyScores[i].second*100/keyScores[0].second << " pkt\n";
+        for(int i = 0; i < (KEY_SCORES_SHOWN < keyScores.size() ? KEY_SCORES_SHOWN : keyScores.size()); i++){
+            fileStream << keyScores[i].first << ": " << keyScores[i].second*100/keyScores[0].second << " pts\n";
         }
         fileStream.close();
     }
 }
 
-void Utilities::runSubprogram(UserInput &userInput) {
+void Utilities::runSubprograms(UserInput &userInput) {
+    if(userInput.showHelpMessage){
+        showHelpMessages(userInput);
+        return;
+    }
     switch (userInput.pickedMode) {
         case flags::encrypt: {
-            std::string plainText = Utilities::loadTextFromFile(userInput.filePaths.inputFile);
-            std::string key = Utilities::loadTextFromFile(userInput.filePaths.keyFile);
-            key = Utilities::cleanText(key, cleanFullTextLenValue);
-            std::string cypherText = Encrypt::encrypt(plainText, key);
-            Utilities::saveTextToFile(userInput.filePaths.outputFile, cypherText);
+            Encrypt::runSubprogram(userInput);
             break;
         }
         case flags::decrypt: {
-            std::string cypherText = Utilities::loadTextFromFile(userInput.filePaths.inputFile);
-            std::string key = Utilities::loadTextFromFile(userInput.filePaths.keyFile);
-            key = Utilities::cleanText(key, cleanFullTextLenValue);
-            std::string plainText = Decrypt::decrypt(cypherText, key);
-            Utilities::saveTextToFile(userInput.filePaths.outputFile, plainText);
+            Decrypt::runSubprogram(userInput);
             break;
         }
         case flags::breakingKey: {
-            std::string cypherText = Utilities::loadTextFromFile(userInput.filePaths.inputFile);
-            std::string key{};
-            if (userInput.isKeyLenSpecified) {
-                std::string cleanCypherText = Utilities::cleanText(cypherText, userInput.maxTextLengthToAnalyse);
-                key = BreakEncryption::findKeyWithKnownKeyLength(cleanCypherText, userInput.keyLength);
-            } else {
-                key = BreakEncryption::findKey(cypherText, userInput.maxTextLengthToAnalyse);
-            }
-            Utilities::saveTextToFile(userInput.filePaths.keyFile, key);
-            std::string plainText = Decrypt::decrypt(cypherText, key);
-            Utilities::saveTextToFile(userInput.filePaths.outputFile, plainText);
+            BreakEncryption::runSubprogram(userInput);
             break;
         }
         case flags::breakingKeyLength:{
-            std::string cypherText = Utilities::loadTextFromFile(userInput.filePaths.inputFile);
-            std::string cleanText = Utilities::cleanText(cypherText, userInput.maxTextLengthToAnalyse);
-            std::vector<std::pair<int, int>> keyLengthPoints = BreakEncryption::kasiskiExamination(cleanText);
-            Utilities::saveKeyLengthScores(userInput.filePaths.keyFile, keyLengthPoints);
+            BreakEncryption::runKeyLengthBreakingSubprogram(userInput);
             break;
         }
         default: {
             std::cout << "Error!!!" << std::endl;
             return;
         }
+    }
+}
+
+void Utilities::showHelpMessages(UserInput &userInput) {
+    switch(userInput.pickedMode){
+        case flags::encrypt:
+            std::cout<<Constants::encryptHelpMessage;
+            break;
+        case flags::decrypt:
+            std::cout<<Constants::decryptHelpMessage;
+            break;
+        case flags::breakingKey:
+            std::cout<<Constants::breakEncryptionHelpMessage;
+            break;
+        case flags::breakingKeyLength:
+            std::cout<<Constants::breakKeyLengthHelpMessage;
+            break;
+        default:
+            std::cout<<Constants::helpMessage;
+            break;
     }
 }

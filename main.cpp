@@ -19,7 +19,7 @@ int main(int argv, char *argc[]) {
         return 0;
     }
 
-    Utilities::runSubprogram(userInput);
+    Utilities::runSubprograms(userInput);
 
     return 0;
 }

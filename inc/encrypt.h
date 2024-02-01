@@ -8,6 +8,7 @@
 #define VIGENEREENCRYPTION_ENCRYPT_H
 
 #include <string>
+#include "userInput.h"
 
 namespace Encrypt {
     /**
@@ -17,6 +18,8 @@ namespace Encrypt {
      * @return The encrypted ciphertext.
      */
     std::string encrypt(std::string &text, std::string &key);
+
+    void runSubprogram(UserInput &userInput);
 }
 
 

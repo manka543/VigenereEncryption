@@ -14,6 +14,8 @@
 #include <vector>
 
 namespace Utilities {
+    constexpr int KEY_SCORES_SHOWN = 10;
+
     /**
      * @brief Save text to a file.
      * @param path The file path.
@@ -27,6 +29,8 @@ namespace Utilities {
      * @param keyScores Vector of key length scores.
      */
     void saveKeyLengthScores(std::string &path, std::vector<std::pair<int, int>> &keyScores);
+
+    std::string validateKey(const std::string &key);
 
     /**
      * @brief Load text from a file.
@@ -80,7 +84,9 @@ namespace Utilities {
      * @brief Run the selected subprogram based on user input.
      * @param userInput The user input specifying the subprogram.
      */
-    void runSubprogram(UserInput& userInput);
+    void runSubprograms(UserInput& userInput);
+
+    void showHelpMessages(UserInput& userInput);
 }
 
 #endif //VIGENEREENCRYPTION_UTILITIES_H

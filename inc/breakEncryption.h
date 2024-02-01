@@ -9,9 +9,13 @@
 
 #include <string>
 #include <vector>
-
+#include "userInput.h"
 
 namespace BreakEncryption {
+    constexpr double KEY_LENGTH_SCORE_THRESHOLD_VALUE = 0.7;
+    constexpr int SMALLEST_REPETITION_EVALUATED = 3;
+    constexpr int HIGHEST_REPETITION_EVALUATED = 10;
+    constexpr int MIN_KEY_LENGTH = 2;
     /**
      * @brief Find the Vigenere Encryption key given a ciphertext and maximum text length to analyze.
      * @param cypherText The input ciphertext.
@@ -43,6 +47,10 @@ namespace BreakEncryption {
      * @return The discovered Caesar shift for the specified position.
      */
     char findCaesarShift(std::string &cleanCypherText, int keyLength, int shift);
+
+    void runSubprogram(UserInput& userInput);
+
+    void runKeyLengthBreakingSubprogram(UserInput& userInput);
 }
 
 #endif //VIGENEREENCRYPTION_BREAKENCRYPTION_H

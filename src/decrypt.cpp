@@ -22,3 +22,18 @@ std::string Decrypt::decrypt(std::string cypherText, std::string encryptionKey) 
     }
     return text;
 }
+
+void Decrypt::runSubprogram(UserInput &userInput) {
+    std::string cypherText = Utilities::loadTextFromFile(userInput.filePaths.inputFile);
+    std::string key = Utilities::loadTextFromFile(userInput.filePaths.keyFile);
+    key = Utilities::cleanText(key, Utilities::cleanFullTextLenValue);
+
+    try{
+        Utilities::validateKey(key);
+    } catch (std::runtime_error& e){
+        std::cout<<e.what()<<std::endl;
+    }
+
+    std::string plainText = decrypt(cypherText, key);
+    Utilities::saveTextToFile(userInput.filePaths.outputFile, plainText);
+}

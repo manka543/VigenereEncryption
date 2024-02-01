@@ -8,6 +8,7 @@
 #define VIGENEREENCRYPTION_DECRYPT_H
 
 #include <string>
+#include "userInput.h"
 
 namespace Decrypt {
     /**
@@ -17,6 +18,8 @@ namespace Decrypt {
      * @return The decrypted plaintext.
      */
     std::string decrypt(std::string cypherText, std::string encryptionKey);
+
+    void runSubprogram(UserInput &userInput);
 }
 
 #endif //VIGENEREENCRYPTION_DECRYPT_H

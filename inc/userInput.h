@@ -26,6 +26,7 @@ struct FilePaths {
 struct UserInput {
     FilePaths filePaths{};
     flags pickedMode{};
+    bool showHelpMessage{};
     int maxTextLengthToAnalyse{};
     bool isKeyLenSpecified{};
     int keyLength{};
