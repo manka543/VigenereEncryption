@@ -31,7 +31,7 @@ namespace Utilities {
     bool validateInput(UserInput &userInput);
 
     /**
-     * @brief Number of key scores to be shown when breaking the encryption key.
+     * @brief Number of key scores to be shown when breaking the encryption key with mode --br-key-len.
      */
     constexpr int KEY_SCORES_SHOWN = 10;
 
@@ -54,10 +54,11 @@ namespace Utilities {
      * @brief Validates the provided encryption or decryption key.
      *
      * This function checks if the provided key is valid for Vigenère cipher encryption or decryption.
-     * The key is considered valid if it consists only of alphabetical characters (A-Z or a-z).
+     * The key is considered valid if it consists only of alphabetical characters (a-z). Upper case characters are
+     * changed to lower ones. Other characters are ignored.
      *
      * @param key The key to be validated.
-     * @return True if the key is valid, false otherwise.
+     * @return Key if such is correct otherwise corrected one.
      */
     std::string validateKey(const std::string &key);
 
@@ -76,7 +77,6 @@ namespace Utilities {
      */
     char moveLetter(char &letter, char &key);
 
-
     /**
      * @brief Undo the movement of a letter using the Vigenere cipher.
      * @param letter The letter to undo.
@@ -84,9 +84,6 @@ namespace Utilities {
      * @return The undone letter.
      */
     char undoLetter(char &letter, char &key);
-
-
-
 
     constexpr int cleanFullTextLenValue = 0;
     /**

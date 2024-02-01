@@ -71,7 +71,7 @@ namespace BreakEncryption {
     void runSubprogram(UserInput& userInput);
 
     /**
-     * @brief Runs the subprogram for breaking key lengths.
+     * @brief Runs the subprogram for breaking only key length.
      * @param userInput User input data.
      */
     void runKeyLengthBreakingSubprogram(UserInput& userInput);
